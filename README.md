@@ -5,16 +5,16 @@ After whipping this up for a project at work I figured it could serve as a templ
 
 Libraries used:
 
-* bcrypt
-* bluebird
-* body-parser
-* ejs
-* express
-* express-session
-* mongoose
-* passport
-* passport-local
-* Foundation
+* [bcrypt](https://github.com/ncb000gt/node.bcrypt.js/)
+* [bluebird](https://github.com/petkaantonov/bluebird)
+* [body-parser](https://github.com/expressjs/body-parser)
+* [ejs](https://github.com/mde/ejs)
+* [express](http://expressjs.com/)
+* [express-session](https://github.com/expressjs/session)
+* [mongoose](https://github.com/Automattic/mongoose)
+* [passport](http://passportjs.org/)
+* [passport-local](https://github.com/jaredhanson/passport-local)
+* [Foundation](http://foundation.zurb.com/)
 
 Install with npm:
 
