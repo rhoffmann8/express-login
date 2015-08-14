@@ -11,70 +11,73 @@ var User      = Promise.promisifyAll(require('../models/user'));
 module.exports = function(app) {
 
   // Configure passport
-  passport.use(new LocalStrategy(strategy));
+  passport.use(User.createStrategy());
 
-  passport.serializeUser(function(user, done) {
-    done(null, user.username);
-  });
-
-  passport.deserializeUser(function(username, done) {
-    User.findOneAsync({
-      username: username
-    })
-    .then(function(user) {
-      done(null, user);
-    })
-    .catch(function(err) {
-      done(err);
-    })
-  });
-
-  function strategy(username, password, done) {
-    User
-      .findOneAsync({
-        username: username
-      })
-      .bind({})
-      .then(function(user) {
-        if (!user) {
-          return [false, {message: 'Invalid username'}];
-        }
-        this.user = user;
-        return bcrypt.compareAsync(password, user.password);
-      })
-      .then(function(result) {
-        if (!result) {
-          return [false, {message: 'Invalid password'}];
-        }
-
-        return this.user;
-      })
-      .nodeify(done, {spread: true});
-  }
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
 
   app
+    // Login
     .get('/login', function(req, res, next) {
-      res.render('login');
+      if (req.isAuthenticated()) {
+        res.redirect('/home');
+      } else {
+        res.render('login', { message: req.flash('error') });
+      }
     })
     .post('/login', passport.authenticate('local', {
       successRedirect: '/home',
-      failureRedirect: '/login'
+      failureRedirect: '/login',
+      failureFlash: true
     }))
+
+    // Register
+    .get('/register', function(req, res, next) {
+      if (req.isAuthenticated()) {
+        res.redirect('/home');
+      } else {
+        res.render('register', { message: req.flash('error') });
+      }
+    })
+    .post('/register', function(req, res, next) {
+      var user = req.body.username;
+      var pass = req.body.password;
+      var confirmpass = req.body.confirmpassword;
+
+      if (pass != confirmpass) {
+        req.flash('error', 'Passwords do not match.');
+        res.redirect('/register');
+        return;
+      }
+
+      User
+        .registerAsync(new User({username: req.body.username}), req.body.password)
+        .then(function() {
+          passport.authenticate('local')(req, res, function() {
+            res.redirect('/');
+          });
+        })
+        .catch(function(err) {
+          req.flash('error', err.message);
+          res.redirect('/register');
+        });
+    })
+
+    // Logout
     .post('/logout', function(req, res) {
       if (req.isAuthenticated()) {
         req.logout();
       }
       res.redirect('/login');
     })
+
     // gate all subsequent requests
     .use(function(req, res, next) {
       if (!req.isAuthenticated()) {
         res.redirect('/login');
       } else{
-
         // initialize session wrapper
         session.init(req.session);
-
         next();
       }
     });

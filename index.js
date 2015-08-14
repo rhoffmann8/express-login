@@ -5,6 +5,7 @@ var expressSession = require('express-session');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var flash = require('connect-flash');
 var log = require('util').log;
 
 var config = require('./config');
@@ -17,12 +18,13 @@ module.exports  = (function(app, g, undefined) {
     .use(bodyParser.json())
     .use(express.static('public'))
     .use(expressSession({
-      secret: 'secret', 
-      saveUninitialized: true, 
+      secret: 'secret',
+      saveUninitialized: true,
       resave: true
     }))
     .use(passport.initialize())
-    .use(passport.session());
+    .use(passport.session())
+    .use(flash())
 
   // init db
   mongoose.connect('mongodb://localhost/' + config.dbname);
@@ -37,7 +39,7 @@ module.exports  = (function(app, g, undefined) {
     if (!req.isAuthenticated()) {
       res.render('login');
     } else {
-      res.render('home');
+      res.redirect('/home');
     }
   });
 
