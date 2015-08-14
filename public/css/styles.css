@@ -1,0 +1,18 @@
+.main {
+    padding: 10px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+#login_form {
+    /*width: 280px;*/
+    max-width: 320px;
+    margin: 0 auto;
+}
+#login_form .button {
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+}
+.hide {
+  display: none;
+}

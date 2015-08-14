@@ -1,0 +1,9 @@
+<script src="js/vendor/jquery.js"></script>
+<script src="js/foundation.min.js"></script>
+<script>
+$(document).foundation();
+$("#logout").on('click', function(e) {
+  e.preventDefault();
+  $("#logout_form").submit();
+})
+</script>
