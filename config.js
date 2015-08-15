@@ -1,3 +1,3 @@
 module.exports = {
-  dbname: 'gtp'
+  dbname: 'test'
 };
