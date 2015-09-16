@@ -15,7 +15,7 @@
   <div class="main">
     <div class="row">
       <div class="small-12 medium-8 medium-offset-2 large-6 large-offset-3 columns">
-      <% if (message.length) { %>
+      <% if (typeof message != 'undefined' && message.length) { %>
         <div data-alert class="alert-box alert">
           <%= message %>
         </div>

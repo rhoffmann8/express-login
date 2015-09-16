@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
+var logger = require('morgan');
 var log = require('util').log;
 
 var config = require('./config');
@@ -24,6 +25,7 @@ module.exports  = (function(app, g, undefined) {
     }))
     .use(passport.initialize())
     .use(passport.session())
+    .use(logger('dev'))
     .use(flash())
 
   // init db
