@@ -13,6 +13,7 @@ Libraries used:
 * [express](http://expressjs.com/)
 * [express-session](https://github.com/expressjs/session)
 * [mongoose](https://github.com/Automattic/mongoose)
+* [morgan](https://github.com/expressjs/morgan)
 * [passport](http://passportjs.org/)
 * [passport-local](https://github.com/jaredhanson/passport-local)
 * [passport-local-mongoose](https://github.com/saintedlama/passport-local-mongoose)
